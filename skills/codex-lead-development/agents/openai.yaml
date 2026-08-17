@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Lead Development"
+  short_description: "Lead Codex coding tasks from plan to PR"
+  default_prompt: "Use $codex-lead-development to lead this coding task through adaptive delegation, review, verification, and a PR."
