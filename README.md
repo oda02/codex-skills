@@ -12,9 +12,9 @@ Highlights:
 
 - scales from direct implementation to a small multi-agent team;
 - keeps the main Codex thread focused on decisions and integration;
-- uses GPT-5.6 Luna, Terra, and Sol according to task shape;
-- defaults delegated agents to `high` reasoning, with Luna `max` allowed for economical wide fan-out;
-- uses one reviewer for small changes and up to three scoped Sol reviewers for complex changes;
+- inherits the current chat's model and reasoning settings by default, without pinning model versions;
+- optionally considers cheaper available models for well-specified, low-risk checks when a large task needs more than 10 subagents in total;
+- uses one reviewer for small changes and up to three scoped reviewers for complex changes;
 - iterates on material findings and actionable CI feedback without merging automatically.
 
 ## Install

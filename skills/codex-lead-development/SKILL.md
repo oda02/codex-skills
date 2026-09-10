@@ -29,15 +29,16 @@ Keep delegation flat unless explicitly allowed. Give every subagent one owner-si
 
 Prefer parallelism for read-heavy exploration, tests, triage, and review. For write-heavy work, define file ownership and use isolated branches or worktrees; otherwise keep one writer at a time. Ask agents to return distilled findings and artifact paths instead of flooding the main thread with raw logs.
 
-## Route Codex models intentionally
+## Choose models without pinning versions
 
-Honor an explicit user model choice. Otherwise set every delegated agent to `high` reasoning by default.
+Honor explicit user choices for models and reasoning effort. Otherwise, use the current chat's model and reasoning settings for all subagents, including implementers, reviewers, and verifiers. Prefer the delegation tool's inheritance mechanism; do not hard-code model names, generations, or effort levels.
 
-- **`gpt-5.6-luna`:** use for fast, narrow, repeatable, or high-volume work such as repository mapping, log inspection, mechanical checks, and test-case enumeration.
-- **`gpt-5.6-terra`:** use as the default implementer for clear, localized features, bug fixes, tests, and read-heavy scans.
-- **`gpt-5.6-sol`:** use for complex or cross-cutting implementation, architecture, ambiguous debugging, risky migrations, and independent code review.
+For a genuinely large task expected to require more than 10 subagents in total across the full workflow, consider whether selected assignments can run economically on a simpler model. This is optional, not a target agent count or a reason to split work into more tasks.
 
-The only effort exception is Luna: freely use `max` for broad hypothesis generation, exhaustive probes, or wide fan-out because it is the economical tier. Use Sol for the final independent review whenever available; a cheaper model must not be the sole judge of its own output.
+- Limit cheaper models to bounded, low-risk work with a well-specified brief, explicit expected outcomes, and easy-to-check evidence. Examples include running predefined test scenarios, checking documented acceptance criteria, or repeating a mechanical validation across components.
+- Choose only from models actually available in the environment. A lighter model or a previous-generation model in the same family may fit, but an older model is not automatically cheaper or suitable. Check available cost and capability information when needed; if the benefit is unclear, keep the current chat's model.
+- Keep architecture, ambiguous debugging, risky implementation, and final independent review on the current chat's model unless the user requests otherwise. Review cheaper agents' evidence before accepting their results; if their task turns out to require substantial judgment, return it to the current chat's model.
+- Briefly explain which assignments use a cheaper model and why. Set only supported model and reasoning options; if switching is unavailable, keep inherited settings.
 
 ## Execute and integrate
 
@@ -47,13 +48,13 @@ Require implementers to report changed files, design choices, commands run, fail
 
 ## Review adaptively
 
-- For a small or localized change, use one fresh Sol reviewer focused on correctness, regressions, tests, and maintainability.
-- For a complex, risky, or cross-cutting change, use up to three independent Sol reviewers with distinct scopes: correctness/data flow, architecture/maintainability, and tests/edge cases/security.
+- For a small or localized change, use one fresh reviewer focused on correctness, regressions, tests, and maintainability.
+- For a complex, risky, or cross-cutting change, use up to three independent reviewers with distinct scopes: correctness/data flow, architecture/maintainability, and tests/edge cases/security.
 - Require actionable findings with severity, exact location, failure scenario, and suggested direction. Treat unsupported preferences as optional.
 
-Triage findings against the code and requirements instead of accepting them blindly. For a disputed or high-impact finding, use a fresh Sol verifier to confirm or refute it with concrete evidence before changing code.
+Triage findings against the code and requirements instead of accepting them blindly. For a disputed or high-impact finding, use a fresh verifier to confirm or refute it with concrete evidence before changing code.
 
-Fix clear local issues directly or return them to the original implementer, then re-review only the changed or disputed area unless the overall design changed. If the same material issue survives two fix cycles, hand it to a fresh Sol implementer with the original brief, review evidence, and attempted fixes. Stop an unproductive loop and ask the user only when a material product or architecture decision is genuinely required.
+Fix clear local issues directly or return them to the original implementer, then re-review only the changed or disputed area unless the overall design changed. If the same material issue survives two fix cycles, hand it to a fresh implementer with the original brief, review evidence, and attempted fixes. Stop an unproductive loop and ask the user only when a material product or architecture decision is genuinely required.
 
 ## Verify and deliver
 
