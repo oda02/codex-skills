@@ -12,8 +12,8 @@ Highlights:
 
 - scales from direct implementation to a small multi-agent team;
 - keeps the main Codex thread focused on decisions and integration;
-- inherits the current chat's model and reasoning settings by default, without pinning model versions;
-- optionally considers cheaper available models for well-specified, low-risk checks when a large task needs more than 10 subagents in total;
+- uses `gpt-6-sol` for subagents by default, including implementation and review;
+- reserves `gpt-6-astra` for individual assignments that genuinely need stronger reasoning;
 - uses one reviewer for small changes and up to three scoped reviewers for complex changes;
 - iterates on material findings and actionable CI feedback without merging automatically.
 

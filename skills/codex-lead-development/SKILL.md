@@ -29,16 +29,13 @@ Keep delegation flat unless explicitly allowed. Give every subagent one owner-si
 
 Prefer parallelism for read-heavy exploration, tests, triage, and review. For write-heavy work, define file ownership and use isolated branches or worktrees; otherwise keep one writer at a time. Ask agents to return distilled findings and artifact paths instead of flooding the main thread with raw logs.
 
-## Choose models without pinning versions
+## Choose subagent models
 
-Honor explicit user choices for models and reasoning effort. Otherwise, use the current chat's model and reasoning settings for all subagents, including implementers, reviewers, and verifiers. Prefer the delegation tool's inheritance mechanism; do not hard-code model names, generations, or effort levels.
+Honor explicit user choices for models and reasoning effort. Otherwise, run subagents on `gpt-6-sol` by default, including implementers, reviewers, and verifiers. Set the model explicitly when the delegation tool would otherwise inherit a different chat model. Use a supported reasoning effort appropriate to the assignment.
 
-For a genuinely large task expected to require more than 10 subagents in total across the full workflow, consider whether selected assignments can run economically on a simpler model. This is optional, not a target agent count or a reason to split work into more tasks.
+Reserve `gpt-6-astra` for an individual assignment that genuinely needs stronger reasoning, such as a difficult architecture decision, ambiguous cross-system debugging, or a high-impact review with subtle failure modes. Complexity alone does not require upgrading every agent in the workflow. Briefly state why Astra is needed for that assignment.
 
-- Limit cheaper models to bounded, low-risk work with a well-specified brief, explicit expected outcomes, and easy-to-check evidence. Examples include running predefined test scenarios, checking documented acceptance criteria, or repeating a mechanical validation across components.
-- Choose only from models actually available in the environment. A lighter model or a previous-generation model in the same family may fit, but an older model is not automatically cheaper or suitable. Check available cost and capability information when needed; if the benefit is unclear, keep the current chat's model.
-- Keep architecture, ambiguous debugging, risky implementation, and final independent review on the current chat's model unless the user requests otherwise. Review cheaper agents' evidence before accepting their results; if their task turns out to require substantial judgment, return it to the current chat's model.
-- Briefly explain which assignments use a cheaper model and why. Set only supported model and reasoning options; if switching is unavailable, keep inherited settings.
+Choose only from models available in the current environment. If the preferred model is unavailable, use the closest suitable available model and keep the user's explicit choices and task requirements in view.
 
 ## Execute and integrate
 
